@@ -18,8 +18,8 @@ class Player {
     public $created_by;
     public $created_at;
 
-    public function __construct($db) {
-        $this->conn = $db;
+    public function __construct($db = null) {
+        $this->conn = $db ?: Database::getInstance()->getConnection();
     }
 
     // Thêm player vào match

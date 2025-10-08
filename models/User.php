@@ -11,16 +11,16 @@ class User {
     public $display_name;
     public $created_at;
 
-    public function __construct($db) {
-        $this->conn = $db;
+    public function __construct($db = null) {
+        $this->conn = $db ?: Database::getInstance()->getConnection();
     }
 
     // Đăng nhập
     public function login($username, $password) {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE username = :username AND password = :password";
+        $query = "SELECT id, username, display_name, created_at FROM " . $this->table_name . " WHERE username = :username AND password = :password LIMIT 1";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':username', $username);
-        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+        $stmt->bindParam(':password', $password, PDO::PARAM_STR);
         $stmt->execute();
         
         return $stmt->fetch();
@@ -28,17 +28,31 @@ class User {
 
     // Đăng ký
     public function register() {
+        // Kiểm tra username đã tồn tại chưa
+        if ($this->usernameExists($this->username)) {
+            return false;
+        }
+        
         $query = "INSERT INTO " . $this->table_name . " 
                   (username, password, display_name) 
                   VALUES (:username, :password, :display_name)";
         
         $stmt = $this->conn->prepare($query);
-        
-        $stmt->bindParam(':username', $this->username);
-        $stmt->bindParam(':password', $this->password);
-        $stmt->bindParam(':display_name', $this->display_name);
+        $stmt->bindParam(':username', $this->username, PDO::PARAM_STR);
+        $stmt->bindParam(':password', $this->password, PDO::PARAM_STR);
+        $stmt->bindParam(':display_name', $this->display_name, PDO::PARAM_STR);
         
         return $stmt->execute();
+    }
+    
+    // Kiểm tra username đã tồn tại
+    private function usernameExists($username) {
+        $query = "SELECT id FROM " . $this->table_name . " WHERE username = :username LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+        $stmt->execute();
+        
+        return $stmt->fetch() !== false;
     }
 
     // Lấy thông tin user theo ID

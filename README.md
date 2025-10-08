@@ -1,186 +1,157 @@
-# Vòng Quay Ngẫu Nhiên - PHP MVC
+# VongQuay - Ứng dụng Chia Team Liên Quân
 
-Hệ thống chia team cân bằng và công bằng cho game, được xây dựng bằng PHP MVC.
+Ứng dụng web PHP MVC để tạo phòng, tham gia phòng và chia team cân bằng cho game Liên Quân Mobile.
 
-## Tính năng chính
+## 🚀 Tính năng chính
 
-### 🔐 Quản lý người dùng
-- Đăng ký/Đăng nhập
-- Thông tin cá nhân đầy đủ
-- Cấp độ và thống kê
+- **Tạo phòng**: Tạo phòng với tên, mật khẩu và số lượng người chơi tối đa
+- **Tham gia phòng**: Tham gia phòng bằng mã phòng và mật khẩu
+- **Quản lý người chơi**: Thêm, sửa, xóa thông tin người chơi
+- **Đánh giá kỹ năng**: Đánh giá 5 kỹ năng (1-10 điểm) + vị trí ưa thích
+- **Chia team cân bằng**: Thuật toán chia team dựa trên tổng điểm kỹ năng
+- **Giao diện responsive**: Tương thích với mọi thiết bị
 
-### 🏠 Quản lý phòng
-- Tạo phòng với tên và mật khẩu
-- Mã phòng tự động
-- Tham gia phòng bằng mã + mật khẩu
-- Quản lý người tham gia
-
-### 🎮 Quản lý Match
-- Tạo match trong phòng
-- Thêm player với đánh giá kỹ năng
-- Chia team cân bằng thông minh
-- Vòng quay ngẫu nhiên
-
-## Cấu trúc thư mục
+## 📁 Cấu trúc dự án
 
 ```
 VongQuay/
 ├── config/
-│   └── database.php          # Cấu hình kết nối database
-├── models/
-│   ├── User.php             # Model quản lý người dùng
-│   ├── Room.php             # Model quản lý phòng
-│   ├── Match.php            # Model quản lý match
-│   └── Player.php           # Model quản lý player
+│   ├── config.php          # Cấu hình ứng dụng
+│   └── database.php        # Kết nối database (Singleton)
 ├── controllers/
-│   ├── HomeController.php   # Controller trang chủ & auth
-│   ├── RoomController.php   # Controller quản lý phòng
-│   └── MatchController.php  # Controller quản lý match
+│   ├── HomeController.php  # Controller chính
+│   ├── MatchController.php # Controller trận đấu
+│   └── RoomController.php  # Controller phòng
+├── models/
+│   ├── User.php           # Model người dùng
+│   ├── Room.php           # Model phòng
+│   ├── Match.php          # Model trận đấu
+│   └── Player.php         # Model người chơi
 ├── views/
-│   ├── layout.php           # Layout chính
-│   ├── home.php             # Trang chủ
-│   ├── login.php            # Đăng nhập
-│   ├── register.php         # Đăng ký
-│   ├── rooms.php            # Danh sách phòng
-│   ├── create_room.php      # Tạo phòng
-│   └── join_room.php        # Tham gia phòng
-├── index.php                # File chính điều hướng
-├── style.css                # CSS styles
-└── vongquay_db.sql          # Database schema
+│   ├── layout.php         # Layout chính
+│   ├── home.php           # Trang chủ
+│   ├── create_room.php    # Tạo phòng
+│   ├── join_room.php      # Tham gia phòng
+│   ├── room_detail.php    # Chi tiết phòng
+│   ├── add_member.php     # Thêm thành viên
+│   ├── edit_player.php    # Sửa thông tin người chơi
+│   ├── team_balance.php   # Kết quả chia team
+│   └── ...
+├── index.php              # Router chính
+├── style.css              # CSS styles
+├── .htaccess              # Apache configuration
+└── README.md              # Tài liệu này
 ```
 
-## Cài đặt
+## 🛠️ Cài đặt
 
-### 1. Yêu cầu hệ thống
-- XAMPP (Apache + MySQL + PHP 7.4+)
+### Yêu cầu hệ thống
+- PHP 7.4+ hoặc PHP 8.0+
 - MySQL 5.7+ hoặc MariaDB 10.3+
+- Apache với mod_rewrite
+- PDO MySQL extension
 
-### 2. Cài đặt database
-1. Khởi động XAMPP
-2. Truy cập phpMyAdmin (http://localhost/phpmyadmin)
-3. Tạo database mới tên `vongquay_db`
-4. Import file `vongquay_db.sql`
+### Cài đặt database
+1. Tạo database MySQL
+2. Import file SQL (nếu có)
+3. Cập nhật thông tin kết nối trong `config/database.php`
 
-### 3. Cấu hình
-Chỉnh sửa file `config/database.php` nếu cần:
+### Cấu hình hosting
+1. Upload tất cả files lên hosting
+2. Cấu hình domain trỏ về thư mục dự án
+3. Đảm bảo `.htaccess` được hỗ trợ
+
+## 🔧 Cấu hình
+
+### Database Connection
+Chỉnh sửa `config/database.php`:
 ```php
-private $host = 'localhost';
-private $db_name = 'vongquay_db';
-private $username = 'root';
-private $password = '';
+private $host = 'your-host';
+private $db_name = 'your-database';
+private $username = 'your-username';
+private $password = 'your-password';
 ```
 
-### 4. Chạy ứng dụng
-1. Copy thư mục project vào `htdocs`
-2. Truy cập: `http://localhost/VongQuay`
+### Application Settings
+Chỉnh sửa `config/config.php`:
+```php
+define('APP_URL', 'https://your-domain.com');
+```
 
-## Sử dụng
+## 🎮 Cách sử dụng
 
-### Đăng ký/Đăng nhập
-1. Truy cập trang web
-2. Đăng ký tài khoản mới hoặc đăng nhập
-3. Điền thông tin cá nhân
+1. **Tạo phòng**: Nhập thông tin cá nhân và thông tin phòng
+2. **Tham gia phòng**: Nhập mã phòng và mật khẩu
+3. **Thêm người chơi**: Đánh giá kỹ năng và chọn vị trí
+4. **Chia team**: Khi đủ người, hệ thống sẽ chia team cân bằng
 
-### Tạo phòng
-1. Vào "Phòng" → "Tạo phòng mới"
-2. Nhập tên phòng và mật khẩu
-3. Chọn số người chơi tối đa
-4. Hệ thống tạo mã phòng tự động
+## 🏗️ Kiến trúc
 
-### Tham gia phòng
-1. Vào "Phòng" → "Tham gia phòng"
-2. Nhập mã phòng và mật khẩu
-3. Nhấn "Tham gia phòng"
+### MVC Pattern
+- **Model**: Xử lý dữ liệu và business logic
+- **View**: Giao diện người dùng
+- **Controller**: Điều khiển luồng ứng dụng
 
-### Tạo Match
-1. Vào phòng đã tham gia
-2. Tạo match mới
-3. Thêm players với đánh giá kỹ năng
-4. Chia team cân bằng
+### Database Design
+- **users**: Thông tin người dùng
+- **rooms**: Thông tin phòng
+- **matches**: Thông tin trận đấu
+- **players**: Thông tin người chơi
 
-## Database Schema
+## 🔒 Bảo mật
 
-### Bảng `users`
-- Thông tin người dùng
-- Email, phone, level, thống kê
+- **SQL Injection**: Sử dụng Prepared Statements
+- **XSS Protection**: Input sanitization
+- **CSRF Protection**: Token validation
+- **Session Security**: Secure session settings
+- **File Protection**: .htaccess security rules
 
-### Bảng `rooms`
-- Thông tin phòng
-- Tên phòng, mã phòng, mật khẩu
-- Số người tối đa, trạng thái
+## ⚡ Tối ưu hóa
 
-### Bảng `room_participants`
-- Người tham gia phòng
-- Liên kết user và room
-- Phân quyền chủ phòng
+- **Singleton Pattern**: Database connection
+- **Caching**: Static file caching
+- **Compression**: Gzip compression
+- **Error Handling**: Structured logging
+- **Performance**: Query optimization
 
-### Bảng `matches`
-- Thông tin match
-- Liên kết với phòng
-- Người tạo match
-
-### Bảng `players`
-- Thông tin player trong match
-- Đánh giá kỹ năng (1-5)
-- Tổng điểm, vị trí
-
-## API Routes
-
-| Route | Method | Mô tả |
-|-------|--------|-------|
-| `/` | GET | Trang chủ |
-| `?action=login` | GET/POST | Đăng nhập |
-| `?action=register` | GET/POST | Đăng ký |
-| `?action=rooms` | GET | Danh sách phòng |
-| `?action=create_room` | GET/POST | Tạo phòng |
-| `?action=join_room` | GET/POST | Tham gia phòng |
-| `?action=room&id=X` | GET | Chi tiết phòng |
-| `?action=matches` | GET | Danh sách match |
-| `?action=create_match` | GET/POST | Tạo match |
-| `?action=match&id=X` | GET | Chi tiết match |
-
-## Tính năng nâng cao
-
-### Chia team cân bằng
-- Phân tích điểm số từng player
-- Thuật toán chia team tối ưu
-- Hiển thị độ cân bằng
-
-### Bảo mật
-- Mật khẩu phòng
-- Session management
-- Input validation
-
-### Responsive Design
-- Tương thích mobile
-- UI/UX hiện đại
-- Animation mượt mà
-
-## Troubleshooting
+## 🐛 Troubleshooting
 
 ### Lỗi kết nối database
-- Kiểm tra XAMPP đã khởi động
-- Kiểm tra cấu hình trong `config/database.php`
-- Kiểm tra database `vongquay_db` đã tồn tại
+- Kiểm tra thông tin kết nối trong `config/database.php`
+- Đảm bảo database server đang chạy
+- Kiểm tra firewall và port
 
 ### Lỗi 404
-- Kiểm tra file `index.php` có tồn tại
-- Kiểm tra cấu hình Apache
-- Kiểm tra quyền truy cập thư mục
+- Đảm bảo mod_rewrite được bật
+- Kiểm tra file `.htaccess`
+- Kiểm tra quyền truy cập file
 
-### Lỗi session
-- Kiểm tra session_start() được gọi
-- Kiểm tra quyền ghi session
-- Xóa cache browser
+### Lỗi permission
+- Đặt quyền 755 cho thư mục
+- Đặt quyền 644 cho file
+- Kiểm tra owner của file
 
-## Đóng góp
+## 📝 Changelog
 
-1. Fork project
-2. Tạo feature branch
-3. Commit changes
-4. Push to branch
-5. Tạo Pull Request
+### Version 1.0.0
+- ✅ Tạo phòng và tham gia phòng
+- ✅ Quản lý người chơi
+- ✅ Chia team cân bằng
+- ✅ Giao diện responsive
+- ✅ Tối ưu hóa hiệu suất
+- ✅ Bảo mật toàn diện
 
-## License
+## 📞 Hỗ trợ
 
-MIT License - Xem file LICENSE để biết thêm chi tiết.
+Nếu gặp vấn đề, vui lòng:
+1. Kiểm tra log lỗi
+2. Xem phần Troubleshooting
+3. Liên hệ developer
+
+## 📄 License
+
+Dự án này được phát hành dưới giấy phép MIT.
+
+---
+
+**VongQuay** - Ứng dụng chia team Liên Quân chuyên nghiệp! 🎯

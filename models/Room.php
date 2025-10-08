@@ -15,8 +15,8 @@ class Room {
     public $created_at;
     public $updated_at;
 
-    public function __construct($db) {
-        $this->conn = $db;
+    public function __construct($db = null) {
+        $this->conn = $db ?: Database::getInstance()->getConnection();
     }
 
     // Tạo phòng mới
@@ -50,14 +50,23 @@ class Room {
     }
 
     // Lấy danh sách phòng
-    public function getRooms() {
+    public function getRooms($limit = null) {
         $query = "SELECT r.*, u.display_name as creator_name
                   FROM " . $this->table_name . " r
                   LEFT JOIN users u ON r.created_by = u.id
                   WHERE r.is_active = 1
                   ORDER BY r.created_at DESC";
         
+        if ($limit) {
+            $query .= " LIMIT :limit";
+        }
+        
         $stmt = $this->conn->prepare($query);
+        
+        if ($limit) {
+            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        }
+        
         $stmt->execute();
         
         return $stmt->fetchAll();

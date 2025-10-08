@@ -1,9 +1,9 @@
 <?php
-// Start session
-session_start();
-
-// Include models and controllers
+// Include configuration
+require_once 'config/config.php';
 require_once 'config/database.php';
+
+// Include controllers
 require_once 'controllers/HomeController.php';
 require_once 'controllers/RoomController.php';
 require_once 'controllers/MatchController.php';

@@ -11,8 +11,7 @@ class HomeController {
     private $playerModel;
 
     public function __construct() {
-        $database = new Database();
-        $db = $database->getConnection();
+        $db = Database::getInstance()->getConnection();
         
         $this->userModel = new User($db);
         $this->roomModel = new Room($db);
@@ -21,11 +20,17 @@ class HomeController {
     }
 
     public function index() {
-        // Lấy danh sách phòng gần đây
-        $rooms = $this->roomModel->getRooms();
-        
-        // Hiển thị trang chủ
-        include 'views/home.php';
+        try {
+            // Lấy danh sách phòng gần đây (giới hạn 10 phòng)
+            $rooms = $this->roomModel->getRooms(10);
+            
+            // Hiển thị trang chủ
+            include 'views/home.php';
+        } catch (Exception $e) {
+            logError('Error in HomeController::index', ['error' => $e->getMessage()]);
+            $error = "Có lỗi xảy ra. Vui lòng thử lại sau.";
+            include 'views/home.php';
+        }
     }
 
     public function login() {

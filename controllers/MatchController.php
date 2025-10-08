@@ -9,8 +9,7 @@ class MatchController {
     private $playerModel;
 
     public function __construct() {
-        $database = new Database();
-        $db = $database->getConnection();
+        $db = Database::getInstance()->getConnection();
         
         $this->userModel = new User($db);
         $this->gameModel = new GameMatch($db);
