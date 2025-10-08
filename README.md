@@ -1,150 +1,186 @@
-# Vòng Quay Ngẫu Nhiên - MVC Architecture
+# Vòng Quay Ngẫu Nhiên - PHP MVC
 
-Ứng dụng chia team cân bằng với kiến trúc MVC (Model-View-Controller).
+Hệ thống chia team cân bằng và công bằng cho game, được xây dựng bằng PHP MVC.
 
-## 🏗️ Cấu trúc dự án
+## Tính năng chính
+
+### 🔐 Quản lý người dùng
+- Đăng ký/Đăng nhập
+- Thông tin cá nhân đầy đủ
+- Cấp độ và thống kê
+
+### 🏠 Quản lý phòng
+- Tạo phòng với tên và mật khẩu
+- Mã phòng tự động
+- Tham gia phòng bằng mã + mật khẩu
+- Quản lý người tham gia
+
+### 🎮 Quản lý Match
+- Tạo match trong phòng
+- Thêm player với đánh giá kỹ năng
+- Chia team cân bằng thông minh
+- Vòng quay ngẫu nhiên
+
+## Cấu trúc thư mục
 
 ```
 VongQuay/
-├── index.html              # File HTML chính
-├── app.js                  # File khởi chạy ứng dụng
-├── style.css               # CSS chung
-├── README.md               # Hướng dẫn sử dụng
-└── src/
-    ├── models/             # Models (Dữ liệu)
-    │   ├── Player.js       # Model người chơi
-    │   ├── Team.js         # Model team
-    │   └── Game.js         # Model game chính
-    ├── views/              # Views (Giao diện)
-    │   ├── HomeView.js     # View trang chủ
-    │   ├── PlayerFormView.js # View form nhập thông tin
-    │   ├── WheelView.js    # View vòng quay
-    │   └── ResultView.js   # View kết quả
-    ├── controllers/        # Controllers (Logic)
-    │   ├── HomeController.js      # Controller trang chủ
-    │   ├── SkillTeamController.js # Controller team kỹ năng
-    │   ├── RandomTeamController.js # Controller team random
-    │   └── PlayerController.js   # Controller quản lý người chơi
-    └── router/             # Router (Điều hướng)
-        └── Router.js       # Router chính
+├── config/
+│   └── database.php          # Cấu hình kết nối database
+├── models/
+│   ├── User.php             # Model quản lý người dùng
+│   ├── Room.php             # Model quản lý phòng
+│   ├── Match.php            # Model quản lý match
+│   └── Player.php           # Model quản lý player
+├── controllers/
+│   ├── HomeController.php   # Controller trang chủ & auth
+│   ├── RoomController.php   # Controller quản lý phòng
+│   └── MatchController.php  # Controller quản lý match
+├── views/
+│   ├── layout.php           # Layout chính
+│   ├── home.php             # Trang chủ
+│   ├── login.php            # Đăng nhập
+│   ├── register.php         # Đăng ký
+│   ├── rooms.php            # Danh sách phòng
+│   ├── create_room.php      # Tạo phòng
+│   └── join_room.php        # Tham gia phòng
+├── index.php                # File chính điều hướng
+├── style.css                # CSS styles
+└── vongquay_db.sql          # Database schema
 ```
 
-## 🚀 Cách sử dụng
+## Cài đặt
 
-1. **Mở `index.html`** trong trình duyệt
-2. **Chọn chức năng** từ menu navigation:
-   - **Trang chủ**: Menu chọn chức năng
-   - **Team Kỹ năng**: Chia team cân bằng thông minh
-   - **Team Random**: Chia team hoàn toàn ngẫu nhiên
-   - **Quản lý**: Thêm/sửa/xóa người chơi
+### 1. Yêu cầu hệ thống
+- XAMPP (Apache + MySQL + PHP 7.4+)
+- MySQL 5.7+ hoặc MariaDB 10.3+
 
-## 🎯 Các chức năng chính
+### 2. Cài đặt database
+1. Khởi động XAMPP
+2. Truy cập phpMyAdmin (http://localhost/phpmyadmin)
+3. Tạo database mới tên `vongquay_db`
+4. Import file `vongquay_db.sql`
 
-### 1. **Lập Team Theo Kỹ Năng**
-- Thuật toán cân bằng thông minh
-- Đảm bảo mỗi team có đủ 5 đường
-- Phân tích chi tiết độ cân bằng
+### 3. Cấu hình
+Chỉnh sửa file `config/database.php` nếu cần:
+```php
+private $host = 'localhost';
+private $db_name = 'vongquay_db';
+private $username = 'root';
+private $password = '';
+```
 
-### 2. **Lập Team Random**
-- Chia team hoàn toàn ngẫu nhiên
-- Phù hợp cho trận đấu vui vẻ
-- Vẫn đảm bảo đủ 5 đường
+### 4. Chạy ứng dụng
+1. Copy thư mục project vào `htdocs`
+2. Truy cập: `http://localhost/VongQuay`
 
-### 3. **Quản lý Người chơi**
-- Thêm người chơi mới
-- Chỉnh sửa thông tin
-- Xóa người chơi
+## Sử dụng
 
-## 🏛️ Kiến trúc MVC
+### Đăng ký/Đăng nhập
+1. Truy cập trang web
+2. Đăng ký tài khoản mới hoặc đăng nhập
+3. Điền thông tin cá nhân
 
-### **Models (src/models/)**
-- **Player.js**: Quản lý dữ liệu người chơi
-- **Team.js**: Quản lý dữ liệu team
-- **Game.js**: Logic game chính
+### Tạo phòng
+1. Vào "Phòng" → "Tạo phòng mới"
+2. Nhập tên phòng và mật khẩu
+3. Chọn số người chơi tối đa
+4. Hệ thống tạo mã phòng tự động
 
-### **Views (src/views/)**
-- **HomeView.js**: Giao diện trang chủ
-- **PlayerFormView.js**: Form nhập thông tin
-- **WheelView.js**: Vòng quay
-- **ResultView.js**: Hiển thị kết quả
+### Tham gia phòng
+1. Vào "Phòng" → "Tham gia phòng"
+2. Nhập mã phòng và mật khẩu
+3. Nhấn "Tham gia phòng"
 
-### **Controllers (src/controllers/)**
-- **HomeController.js**: Logic trang chủ
-- **SkillTeamController.js**: Logic team kỹ năng
-- **RandomTeamController.js**: Logic team random
-- **PlayerController.js**: Logic quản lý người chơi
+### Tạo Match
+1. Vào phòng đã tham gia
+2. Tạo match mới
+3. Thêm players với đánh giá kỹ năng
+4. Chia team cân bằng
 
-### **Router (src/router/)**
-- **Router.js**: Điều hướng giữa các trang
+## Database Schema
 
-## 🔧 Cài đặt và chạy
+### Bảng `users`
+- Thông tin người dùng
+- Email, phone, level, thống kê
 
-1. **Clone hoặc tải** dự án về máy
-2. **Mở file `index.html`** trong trình duyệt
-3. **Hoặc chạy local server**:
-   ```bash
-   # Sử dụng Python
-   python -m http.server 8000
-   
-   # Sử dụng Node.js
-   npx serve .
-   ```
+### Bảng `rooms`
+- Thông tin phòng
+- Tên phòng, mã phòng, mật khẩu
+- Số người tối đa, trạng thái
 
-## 📱 Responsive Design
+### Bảng `room_participants`
+- Người tham gia phòng
+- Liên kết user và room
+- Phân quyền chủ phòng
 
-- Hỗ trợ đầy đủ trên mobile, tablet, desktop
-- Giao diện thích ứng với mọi kích thước màn hình
-- Navigation menu responsive
+### Bảng `matches`
+- Thông tin match
+- Liên kết với phòng
+- Người tạo match
 
-## 🎨 Tính năng UI/UX
+### Bảng `players`
+- Thông tin player trong match
+- Đánh giá kỹ năng (1-5)
+- Tổng điểm, vị trí
 
-- **Giao diện đẹp**: Gradient background, glassmorphism effects
-- **Animations**: Smooth transitions, hover effects
-- **Icons**: Font Awesome icons
-- **Typography**: Google Fonts (Roboto)
+## API Routes
 
-## 🔄 Navigation
+| Route | Method | Mô tả |
+|-------|--------|-------|
+| `/` | GET | Trang chủ |
+| `?action=login` | GET/POST | Đăng nhập |
+| `?action=register` | GET/POST | Đăng ký |
+| `?action=rooms` | GET | Danh sách phòng |
+| `?action=create_room` | GET/POST | Tạo phòng |
+| `?action=join_room` | GET/POST | Tham gia phòng |
+| `?action=room&id=X` | GET | Chi tiết phòng |
+| `?action=matches` | GET | Danh sách match |
+| `?action=create_match` | GET/POST | Tạo match |
+| `?action=match&id=X` | GET | Chi tiết match |
 
-- **Single Page Application (SPA)**
-- **Browser History**: Hỗ trợ back/forward
-- **Active States**: Highlight trang hiện tại
-- **Smooth Transitions**: Chuyển trang mượt mà
+## Tính năng nâng cao
 
-## 🧪 Testing
+### Chia team cân bằng
+- Phân tích điểm số từng player
+- Thuật toán chia team tối ưu
+- Hiển thị độ cân bằng
 
-Để test các chức năng:
+### Bảo mật
+- Mật khẩu phòng
+- Session management
+- Input validation
 
-1. **Thêm người chơi** trong trang Quản lý
-2. **Chọn Team Kỹ năng** để test thuật toán cân bằng
-3. **Chọn Team Random** để test chia ngẫu nhiên
-4. **Kiểm tra kết quả** và thống kê
+### Responsive Design
+- Tương thích mobile
+- UI/UX hiện đại
+- Animation mượt mà
 
-## 📊 Thuật toán
+## Troubleshooting
 
-### **Team Kỹ năng**
-- Sắp xếp theo điểm số
-- Phân chia cân bằng
-- Đảm bảo đủ 5 đường
-- Trao đổi thông minh nếu cần
+### Lỗi kết nối database
+- Kiểm tra XAMPP đã khởi động
+- Kiểm tra cấu hình trong `config/database.php`
+- Kiểm tra database `vongquay_db` đã tồn tại
 
-### **Team Random**
-- Xáo trộn ngẫu nhiên
-- Chia đều cho 2 team
-- Đảm bảo đủ 5 đường
-- Phân bổ roles ngẫu nhiên
+### Lỗi 404
+- Kiểm tra file `index.php` có tồn tại
+- Kiểm tra cấu hình Apache
+- Kiểm tra quyền truy cập thư mục
 
-## 🚀 Mở rộng
+### Lỗi session
+- Kiểm tra session_start() được gọi
+- Kiểm tra quyền ghi session
+- Xóa cache browser
 
-Để thêm tính năng mới:
+## Đóng góp
 
-1. **Tạo Model** trong `src/models/`
-2. **Tạo View** trong `src/views/`
-3. **Tạo Controller** trong `src/controllers/`
-4. **Thêm route** trong `app.js`
+1. Fork project
+2. Tạo feature branch
+3. Commit changes
+4. Push to branch
+5. Tạo Pull Request
 
-## 📝 Ghi chú
+## License
 
-- Sử dụng ES6 Modules
-- Không cần build process
-- Chạy trực tiếp trong trình duyệt
-- Hỗ trợ tất cả trình duyệt hiện đại
+MIT License - Xem file LICENSE để biết thêm chi tiết.
