@@ -1,25 +1,13 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vòng Quay Ngẫu Nhiên - Trang Chủ</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1><i class="fas fa-dice"></i> Vòng Quay Ngẫu Nhiên</h1>
-            <p>Chia team cân bằng và công bằng</p>
-        </header>
-
-        <div class="main-content">
+/**
+ * HomeView - View cho trang chủ
+ */
+export class HomeView {
+    render() {
+        return `
             <div class="home-section">
                 <h2><i class="fas fa-home"></i> Chọn chức năng</h2>
                 <div class="features-grid">
-                    <div class="feature-card" onclick="navigateToSkillTeam()">
+                    <div class="feature-card" data-route="/skill-team">
                         <div class="feature-icon">
                             <i class="fas fa-brain"></i>
                         </div>
@@ -32,7 +20,7 @@
                         </div>
                     </div>
 
-                    <div class="feature-card" onclick="navigateToRandomTeam()">
+                    <div class="feature-card" data-route="/random-team">
                         <div class="feature-icon">
                             <i class="fas fa-random"></i>
                         </div>
@@ -67,31 +55,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <script>
-        function navigateToSkillTeam() {
-            window.location.href = 'index.html';
-        }
-
-        function navigateToRandomTeam() {
-            window.location.href = 'random.html';
-        }
-
-        // Thêm hiệu ứng hover cho các card
-        document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.feature-card, .info-card');
-            cards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-5px)';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
-        });
-    </script>
-</body>
-</html>
+        `;
+    }
+}
