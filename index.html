@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vòng Quay Ngẫu Nhiên - Chia Team</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-dice"></i> Vòng Quay Ngẫu Nhiên</h1>
+            <p>Chia team cân bằng theo rank và mức độ hiểu game</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Form nhập thông tin người chơi -->
+            <div class="input-section">
+                <h2><i class="fas fa-users"></i> Nhập thông tin người chơi</h2>
+                <div class="players-grid" id="playersGrid">
+                    <!-- 10 ô nhập thông tin người chơi -->
+                </div>
+                <button class="btn btn-primary" id="startSpinBtn">
+                    <i class="fas fa-play"></i> Bắt đầu quay
+                </button>
+            </div>
+
+            <!-- Vòng quay -->
+            <div class="wheel-section" id="wheelSection" style="display: none;">
+                <div class="wheel-container">
+                    <div class="wheel" id="wheel">
+                        <div class="wheel-center">
+                            <div class="wheel-pointer"></div>
+                        </div>
+                        <div class="wheel-segments" id="wheelSegments">
+                            <!-- 10 ô sẽ được tạo bằng JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-spin" id="spinBtn">
+                    <i class="fas fa-sync-alt"></i> Quay
+                </button>
+            </div>
+
+            <!-- Kết quả -->
+            <div class="result-section" id="resultSection" style="display: none;">
+                <h2><i class="fas fa-trophy"></i> Kết quả chia team</h2>
+                <div class="teams-container">
+                    <div class="team team-a">
+                        <h3><i class="fas fa-shield-alt"></i> Team A</h3>
+                        <div class="team-members" id="teamA"></div>
+                        <div class="team-stats" id="teamAStats"></div>
+                    </div>
+                    <div class="team team-b">
+                        <h3><i class="fas fa-shield-alt"></i> Team B</h3>
+                        <div class="team-members" id="teamB"></div>
+                        <div class="team-stats" id="teamBStats"></div>
+                    </div>
+                </div>
+                <button class="btn btn-secondary" id="resetBtn">
+                    <i class="fas fa-redo"></i> Chơi lại
+                </button>
+                <button class="btn btn-secondary" onclick="window.location.href='home.html'">
+                    <i class="fas fa-home"></i> Về trang chủ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
